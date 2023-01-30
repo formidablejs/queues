@@ -19,6 +19,7 @@
         "isolatedModules": true
     },
     "include": [
+        "tests",
         "src" // <-- change this to where your source files are
     ]
 }
