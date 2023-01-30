@@ -1,0 +1,19 @@
+name: Tests
+
+on: push
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Start Redis
+      uses: supercharge/redis-github-action@1.4.0
+    - name: Install modules
+      run: npm install
+    - name: Build lib
+      run: npm run build
+    - name: Run tests
+      run: npm test
