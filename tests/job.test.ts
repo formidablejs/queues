@@ -1,7 +1,9 @@
+// @ts-nocheck
+
 import { Redis } from '@formidablejs/framework'
 import { Application } from './app'
 import { queue } from "../src"
-import { LogMessage } from './app/Jobs/LogMessage'
+import { LogMessage } from './app/LogMessage'
 
 describe('src/Queue', () => {
     beforeAll(async () => {

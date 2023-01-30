@@ -1,4 +1,6 @@
-import { Queueable } from '../../../src'
+// @ts-nocheck
+
+import { Queueable } from '../../src'
 
 export class LogMessage extends Queueable {
     /**
