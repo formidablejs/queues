@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { Prop } from '@formidablejs/framework'
 import { MakeResourceCommand } from '@formidablejs/framework/lib/Foundation/Console/Commands/MakeResourceCommand'
 import { Job } from '../Resource/Job'

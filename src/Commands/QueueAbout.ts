@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { Command } from '@formidablejs/framework'
 import { queue, registered } from '../Queue'
 

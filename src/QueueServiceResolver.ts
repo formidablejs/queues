@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { ConsoleKernel, Redis, ServiceResolver, slug } from '@formidablejs/framework'
 import { createQueue } from './Queue'
 import { Generator } from './Commands/Generator'

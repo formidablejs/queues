@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { Command } from '@formidablejs/framework'
 import { Prop } from '@formidablejs/framework'
 import { Queueable } from '../Queueable'

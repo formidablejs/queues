@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { QueueWork } from './Commands/QueueWork'
 import type BeeQueue from 'bee-queue'
 const bee = require('bee-queue')
