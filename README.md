@@ -13,7 +13,7 @@ Formidable Queues, is a Redis based Queue Worker.
 Credits
 --------
 
-Formidable Queues is built on top of [`Bee Queue`](https://github.com/bee-queue/bee-queue)
+Formidable Queues is built on top of [Bee Queue](https://github.com/bee-queue/bee-queue)
 
 Security
 -------
