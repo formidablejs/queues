@@ -92,20 +92,15 @@ export class Queueable {
 	 */
 	get connection(): object {
 		const connections = config('queue.connections')
+
 		let current = {}
 
-		let index: number = 0, length: number = connections.length
-
-		while(index < length) {
-			const connection = connections[index]
-
-			if (connection.queue == this.queueName) {
-				current = connection
+		for (const key of Object.keys(connections)) {
+			if (connections[key].queue == this.queueName) {
+				current = connections[key]
 
 				break;
 			}
-
-			index++
 		}
 
 		return current
