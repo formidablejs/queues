@@ -148,10 +148,8 @@ export class QueueWork extends Command {
 		worker.on('failed', async (job, error) => {
 			this.jobLog(job, queueName, 'Failed')
 
-			if (job.options.retries) {
+			if (job.options.retries || job.status == 'retrying') {
 				return
-			} else {
-				job.status = 'failed'
 			}
 
 			if (settings.onError) {
