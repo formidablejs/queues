@@ -7,6 +7,7 @@ import { QueueAbout } from './Commands/QueueAbout'
 import { QueueFlush } from './Commands/QueueFlush'
 import { QueueRetry } from './Commands/QueueRetry'
 import { QueueWork } from './Commands/QueueWork'
+import { QueueClear } from './Commands/QueueClear'
 
 const redisConnections = { }
 
@@ -56,6 +57,7 @@ export class QueueServiceResolver extends ServiceResolver {
 	register(): void {
 		this.app.registerCommand(Generator)
 		this.app.registerCommand(QueueAbout)
+		this.app.registerCommand(QueueClear)
 		this.app.registerCommand(QueueFlush)
 		this.app.registerCommand(QueueRetry)
 		this.app.registerCommand(QueueWork)
