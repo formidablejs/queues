@@ -51,9 +51,9 @@ export declare class Queueable {
     /**
      * Dispatch job.
      */
-    static dispatch(...args: any[]): Promise<Job<any>>;
+    static dispatch<T = unknown>(...args: any[]): Promise<Job<any> | T>;
      /**
      * Dispatch job.
      */
-    dispatch(...args: any[]): Promise<Job<any>>;
+    dispatch<T = unknown>(...args: any[]): Promise<Job<any> | T>;
 }
