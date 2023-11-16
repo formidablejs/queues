@@ -24,8 +24,16 @@ export default {
 
 	connections: {
 		default: {
+			driver: 'redis',
 			queue: 'default',
 			redis: 'queue',
+			timeout: 3000,
+			retries: 3
+		},
+
+		sync: {
+			driver: 'sync',
+			queue: 'sync',
 			timeout: 3000,
 			retries: 3
 		}
