@@ -42,6 +42,7 @@ export class Config extends ConfigRepository {
                 default: 'default',
                 connections: {
                     default: {
+                        driver: 'redis',
                         queue: 'default',
                         redis: 'queue',
                         timeout: 3000,

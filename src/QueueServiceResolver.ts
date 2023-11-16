@@ -8,6 +8,7 @@ import { QueueFlush } from './Commands/QueueFlush'
 import { QueueRetry } from './Commands/QueueRetry'
 import { QueueWork } from './Commands/QueueWork'
 import { QueueClear } from './Commands/QueueClear'
+import { isEmpty } from '@formidablejs/framework/lib/Support/Helpers'
 
 const redisConnections = { }
 
@@ -23,6 +24,14 @@ export class QueueServiceResolver extends ServiceResolver {
 
 		Object.keys(queues).forEach((queue) => {
 			const config = queues[queue]
+
+			if (config.driver !== 'redis') {
+				return
+			}
+
+			if (config.driver == 'redis' && isEmpty(config.redis)) {
+				throw new Error(`Invalid redis connection for queue: ${queue}`)
+			}
 
 			if (!this.app.config.get(`database.redis.${config.redis}`, null)) {
 				throw new Error(`Invalid redis database: ${config.redis}`)
