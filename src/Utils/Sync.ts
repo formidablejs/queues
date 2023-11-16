@@ -6,8 +6,19 @@ async function delayAndRetry<T>(func: () => Promise<T>, retries: number, delayMs
             await delay(delayMs);
         }
 
+        // track the timeout
+        let hasTimedOut = false
+        const timeoutPromise = delay(timeoutMs).then(() => {
+            hasTimedOut = true;
+        });
+
         // Call the provided function with a timeout
-        const result = await Promise.race([func(), delay(timeoutMs)]);
+        const result = await Promise.race([func(), timeoutPromise]);
+
+        if (result === undefined && hasTimedOut) {
+            throw new Error('Operation timed out.');
+        }
+
         return result;
     } catch (error) {
         // Retry if there are remaining retries
