@@ -1,6 +1,7 @@
 // @ts-nocheck
 
 import { ms } from '@formidablejs/framework/lib/Support/Helpers'
+import { delayAndRetry } from './Utils/Sync'
 import { config } from "@formidablejs/framework"
 import { queue } from "./Queue"
 import { Job } from 'bee-queue'
@@ -67,6 +68,17 @@ export class Queueable {
 	}
 
 	/**
+	 * Get queue driver.
+	 */
+	get queueDriver(): string {
+		const defaultConnection = config('queue.default')
+
+		const connection = config(`queue.connections.${defaultConnection}`)
+
+		return connection.driver ?? 'redis'
+	}
+
+	/**
 	 * Initiate new job.
 	 */
 	_initiateJob(...args): Job<any> {
@@ -82,7 +94,11 @@ export class Queueable {
 	static delay(delay: string): Queueable {
 		const job = new this
 
-		job._setDelay(Date.now() + ms(delay))
+		job._setDelay(
+			job.queueDriver == 'sync'
+				? ms(delay)
+				: Date.now() + ms(delay)
+		)
 
 		return job
 	}
@@ -109,7 +125,7 @@ export class Queueable {
 	/**
 	 * Dispatch job.
 	 */
-	static async dispatch(...args): Promise<Job<any>> {
+	static async dispatch<T = unknown>(...args): Promise<Job<any> | T> {
 		const job = new this
 
 		return await job.dispatch.apply(job, args)
@@ -118,7 +134,7 @@ export class Queueable {
 	/**
 	 * Dispatch job.
 	 */
-	async dispatch(...args): Promise<Job<any>> {
+	async dispatch<T = unknown>(...args): Promise<Job<any> | T> {
 		let _referredId = null
 
 		if (args.length > 0 && args[0]._referredId) {
@@ -132,6 +148,12 @@ export class Queueable {
 		const timeout = this.timeout ? this.timeout : (connection.timeout ? connection.timeout : 3000)
 
 		const retries = this.retries ? this.retries : (connection.retries ? connection.retries : 3)
+
+		const driver = this.queueDriver
+
+		if (driver === 'sync') {
+			return delayAndRetry(async () => this.handle.apply(this, args), retries, this._delay, timeout)
+		}
 
 		const job = this._initiateJob(...args)
 
