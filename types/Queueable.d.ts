@@ -41,6 +41,18 @@ export declare class Queueable {
      */
     private static get queueName(): string;
     /**
+	 * Get queue driver.
+	 */
+    get queueDriver(): string;
+    /**
+	 * Get queue timeout.
+	 */
+    get queueTimeout(): number | string;
+    /**
+	 * Get queue retries.
+	 */
+    get queueRetries(): number;
+    /**
      * Initiate new job.
      */
     private static _initiateJob(...args: any[]): Job<any>;
