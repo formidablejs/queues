@@ -167,7 +167,7 @@ export class Queueable {
 
 		const timeout = this.timeout ? this.timeout : (this.queueTimeout ? this.queueTimeout : 3000)
 
-		const retries = this.retries ? this.retries : (this.queueRetries ? this.queueRetries : 3)
+		const retries = this.retries ? this.retries : this.queueRetries
 
 		const driver = this.queueDriver
 
