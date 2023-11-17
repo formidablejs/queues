@@ -1,4 +1,5 @@
 import { createQueue } from './Queue';
+import { Connection } from './Queueable';
 import { Generator } from './Commands/Generator';
 import { Job } from './Resources/Job'
 import { LogType } from './Queue'
@@ -26,6 +27,7 @@ declare module '@formidablejs/framework' {
 
 export {
     createQueue,
+    Connection,
     Generator,
     Job,
     LogType,

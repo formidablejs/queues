@@ -1,4 +1,18 @@
 import { Job } from 'bee-queue';
+
+type Connection = {
+	driver: 'sync',
+	queue: string,
+	timeout?: number,
+	retries?: number
+} | {
+	driver: 'redis',
+	queue: string,
+	redis: string,
+	timeout?: number,
+	retries?: number
+}
+
 export declare class Queueable {
     /**
      * Delay value.
@@ -37,6 +51,10 @@ export declare class Queueable {
      */
     private static _jobName(): string;
     /**
+     * Get queue connection.
+     */
+    private _connection(): Connection;
+    /**
      * Get queue name.
      */
     private static get queueName(): string;
@@ -68,4 +86,8 @@ export declare class Queueable {
      * Dispatch job.
      */
     dispatch<T = unknown>(...args: any[]): Promise<Job<any> | T>;
+}
+
+export {
+    Connection
 }

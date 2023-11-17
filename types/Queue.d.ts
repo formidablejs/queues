@@ -50,4 +50,13 @@ declare class Queue {
     static onLog: (callback: onLogCallback) => void;
 }
 
-export { createQueue, Queue, queue, onErrorCallback, onLogCallback, LogType, registered };
+export {
+    createQueue,
+    Queue,
+    queue,
+    onReadyCallback,
+    onErrorCallback,
+    onLogCallback,
+    LogType,
+    registered
+};
