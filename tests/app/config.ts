@@ -47,6 +47,12 @@ export class Config extends ConfigRepository {
                         redis: 'queue',
                         timeout: 3000,
                         retries: 3
+                    },
+                    sync: {
+                        driver: 'sync',
+                        queue: 'sync',
+                        timeout: 3000,
+                        retries: 3
                     }
                 }
             }
