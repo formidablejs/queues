@@ -1,17 +1,5 @@
 import { Job } from 'bee-queue';
-
-type Connection = {
-	driver: 'sync',
-	queue: string,
-	timeout?: number,
-	retries?: number
-} | {
-	driver: 'redis',
-	queue: string,
-	redis: string,
-	timeout?: number,
-	retries?: number
-}
+import type { Connection } from './Common/Connection';
 
 export declare class Queueable {
     /**

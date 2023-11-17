@@ -1,5 +1,6 @@
-import { createQueue } from './Queue';
 import { Connection } from './Queueable';
+import { connection } from './Utils/connection'
+import { createQueue } from './Queue';
 import { Generator } from './Commands/Generator';
 import { Job } from './Resources/Job'
 import { LogType } from './Queue'
@@ -14,7 +15,9 @@ import { QueueFlush } from './Commands/QueueFlush';
 import { QueueRetry } from './Commands/QueueRetry';
 import { QueueServiceResolver } from './QueueServiceResolver';
 import { QueueWork } from './Commands/QueueWork';
+import { RedisConnection } from './Common/Connection';
 import { registered } from './Queue';
+import { SyncConnection } from './Common/Connection';
 
 declare module '@formidablejs/framework' {
     export class ConsoleKernel {
@@ -27,6 +30,7 @@ declare module '@formidablejs/framework' {
 
 export {
     createQueue,
+    connection,
     Connection,
     Generator,
     Job,
@@ -42,5 +46,7 @@ export {
     QueueRetry,
     QueueServiceResolver,
     QueueWork,
+    RedisConnection,
     registered,
+    SyncConnection,
 }
