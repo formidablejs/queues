@@ -5,19 +5,7 @@ import { delayAndRetry } from './Utils/Sync'
 import { config } from "@formidablejs/framework"
 import { queue } from "./Queue"
 import { Job } from 'bee-queue'
-
-type Connection = {
-	driver: 'sync',
-	queue: string,
-	timeout?: number,
-	retries?: number
-} | {
-	driver: 'redis',
-	queue: string,
-	redis: string,
-	timeout?: number,
-	retries?: number
-}
+import type { Connection } from '../types/Common/Connection'
 
 export class Queueable {
 	/**

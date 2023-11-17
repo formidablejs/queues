@@ -10,6 +10,7 @@ import { QueueWork } from './Commands/QueueWork'
 import { QueueClear } from './Commands/QueueClear'
 import { isEmpty } from '@formidablejs/framework/lib/Support/Helpers'
 import { InvalidQueueConfigurationException } from './Errors/InvalidQueueConfigurationException'
+import type { Connection } from '../types/Common/Connection'
 
 const redisConnections = { }
 
@@ -24,7 +25,7 @@ export class QueueServiceResolver extends ServiceResolver {
 		const queues = this.app.config.get('queue.connections', {})
 
 		Object.keys(queues).forEach((queue) => {
-			const config = queues[queue]
+			const config: Connection = queues[queue]
 
 			if (config.driver !== 'redis') {
 				return
