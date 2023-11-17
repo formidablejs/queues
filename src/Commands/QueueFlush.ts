@@ -3,6 +3,7 @@
 import { Command } from '@formidablejs/framework'
 import { Prop } from '@formidablejs/framework'
 import { queue } from '../Queue'
+import { connection } from '../Utils/connection'
 
 export class QueueFlush extends Command {
 	/**
@@ -24,7 +25,7 @@ export class QueueFlush extends Command {
 	 */
 	get props(): object {
 		return {
-			queue: Prop.string().default('default').description('The name of the queue to work'),
+			queue: Prop.string().default(connection().queue ?? 'default').description('The name of the queue to work'),
 		}
 	}
 
@@ -32,7 +33,7 @@ export class QueueFlush extends Command {
 	 * Handle command.
 	 */
 	async handle(): Promise<void> {
-		const worker = queue(this.option('queue', 'default'))
+		const worker = queue(this.option('queue', connection().queue))
 
 		const jobs = await worker.getJobs('failed', { start: 0 })
 
