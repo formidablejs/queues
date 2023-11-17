@@ -6,6 +6,19 @@ import { config } from "@formidablejs/framework"
 import { queue } from "./Queue"
 import { Job } from 'bee-queue'
 
+type Connection = {
+	driver: 'sync',
+	queue: string,
+	timeout?: number,
+	retries?: number
+} | {
+	driver: 'redis',
+	queue: string,
+	redis: string,
+	timeout?: number,
+	retries?: number
+}
+
 export class Queueable {
 	/**
 	 * Delay value.
@@ -53,6 +66,29 @@ export class Queueable {
 	}
 
 	/**
+	 * Get queue connection.
+	 */
+	private get _connection(): Connection {
+		if (!this.queue) {
+			return config(`queue.connections.${config('queue.default')}`)
+		}
+
+		const connections = config('queue.connections')
+
+		let current = {}
+
+		for (const key of Object.keys(connections)) {
+			if (connections[key].queue == this.queue) {
+				current = connections[key]
+
+				break;
+			}
+		}
+
+		return current ?? config(`queue.connections.${config('queue.default')}`)
+	}
+
+	/**
 	 * Get queue name.
 	 */
 	get queueName(): string {
@@ -71,9 +107,13 @@ export class Queueable {
 	 * Get queue driver.
 	 */
 	get queueDriver(): string {
+		if (this.queue && typeof this.queue === 'string') {
+			return this._connection.driver ?? 'redis'
+		}
+
 		const defaultConnection = config('queue.default')
 
-		const connection = config(`queue.connections.${defaultConnection}`)
+		const connection =  config(`queue.connections.${defaultConnection}`)
 
 		return connection.driver ?? 'redis'
 	}
@@ -82,6 +122,10 @@ export class Queueable {
 	 * Get queue timeout.
 	 */
 	get queueTimeout(): number {
+		if (this.queue && typeof this.queue === 'string') {
+			return this._connection.timeout ?? 3000
+		}
+
 		const defaultConnection = config('queue.default')
 
 		const connection = config(`queue.connections.${defaultConnection}`)
@@ -93,6 +137,10 @@ export class Queueable {
 	 * Get queue retries.
 	 */
 	get queueRetries(): number {
+		if (this.queue && typeof this.queue === 'string') {
+			return this._connection.retries ?? 0
+		}
+
 		const defaultConnection = config('queue.default')
 
 		const connection = config(`queue.connections.${defaultConnection}`)
