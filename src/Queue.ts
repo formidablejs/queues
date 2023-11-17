@@ -1,6 +1,7 @@
 // @ts-nocheck
 
 import { QueueWork } from './Commands/QueueWork'
+import { DuplicateQueueException } from './Errors/DuplicateQueueException'
 import type BeeQueue from 'bee-queue'
 const bee = require('bee-queue')
 
@@ -14,7 +15,7 @@ const settings = {
  */
 const createQueue = (name: string, config) => {
 	if (settings.queues[name]) {
-		throw new Error(`Queue "${name}" already exists.`)
+		throw new DuplicateQueueException(`Queue "${name}" already exists.`)
 	}
 
 	const queue = new bee(name, config)

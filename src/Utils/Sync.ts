@@ -1,3 +1,5 @@
+import { JobExecutionTimeoutException } from '../Errors/JobExecutionTimeoutException'
+
 const delay = (ms: number): Promise<void> => new Promise(resolve => setTimeout(resolve, ms));
 
 async function delayAndRetry<T>(func: () => Promise<T>, retries: number, delayMs: number, timeoutMs: number): Promise<T | void> {
@@ -16,7 +18,7 @@ async function delayAndRetry<T>(func: () => Promise<T>, retries: number, delayMs
         const result = await Promise.race([func(), timeoutPromise]);
 
         if (result === undefined && hasTimedOut) {
-            throw new Error('Operation timed out.');
+            throw new JobExecutionTimeoutException('Operation timed out.');
         }
 
         return result;
