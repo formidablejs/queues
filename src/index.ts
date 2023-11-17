@@ -1,4 +1,5 @@
 import { createQueue } from './Queue'
+import { connection } from './Utils/connection'
 import { DuplicateQueueException } from './Errors/DuplicateQueueException'
 import { Generator } from './Commands/Generator'
 import { InvalidQueueConfigurationException } from './Errors/InvalidQueueConfigurationException'
@@ -15,6 +16,7 @@ import { registered } from './Queue'
 
 export {
     createQueue,
+    connection,
     DuplicateQueueException,
     Generator,
     InvalidQueueConfigurationException,
