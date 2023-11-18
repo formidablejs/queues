@@ -1,6 +1,6 @@
 // @ts-nocheck
 
-import { ConsoleKernel, Redis, ServiceResolver, slug } from '@formidablejs/framework'
+import { ConsoleKernel, Redis, ServiceResolver, env, slug } from '@formidablejs/framework'
 import { createQueue } from './Queue'
 import { Generator } from './Commands/Generator'
 import { QueueAbout } from './Commands/QueueAbout'
@@ -27,7 +27,7 @@ export class QueueServiceResolver extends ServiceResolver {
 		Object.keys(queues).forEach((queue) => {
 			const config: Connection = queues[queue]
 
-			if (config.driver !== 'redis') {
+			if (config.driver !== 'redis' || env('QUEUE_REDIS', true) === false) {
 				return
 			}
 
