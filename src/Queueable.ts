@@ -5,6 +5,7 @@ import { delayAndRetry } from './Utils/Sync'
 import { config } from "@formidablejs/framework"
 import { queue } from "./Queue"
 import { Job } from 'bee-queue'
+import { connection } from './Utils/connection'
 import type { Connection } from '../types/Common/Connection'
 
 export class Queueable {
@@ -61,19 +62,7 @@ export class Queueable {
 			return config(`queue.connections.${config('queue.default')}`)
 		}
 
-		const connections = config('queue.connections')
-
-		let current = {}
-
-		for (const key of Object.keys(connections)) {
-			if (connections[key].queue == this.queue) {
-				current = connections[key]
-
-				break;
-			}
-		}
-
-		return current ?? config(`queue.connections.${config('queue.default')}`)
+		return connection(this.queue)
 	}
 
 	/**
