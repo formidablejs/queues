@@ -5,26 +5,31 @@ import { Application } from './app'
 import { queue } from "../src"
 import { LogMessage } from './app/LogMessage'
 import { SayHello } from './app/SayHello'
-import { JobExecutionTimeoutException } from '../src/Errors/JobExecutionTimeoutException'
+
+const clearAllJobs = async () => {
+    const jobs = await queue('default').getJobs('waiting', { start: 0 })
+
+    const all = []
+
+    for (let index = 0; index < jobs.length; index++) {
+        const job = jobs[index];
+
+        all.push(job.remove())
+    }
+
+    await Promise.all(all)
+}
 
 describe('src/Queue', () => {
     beforeAll(async () => {
         await Application
 
-        const jobs = await queue('default').getJobs('waiting', { start: 0 })
-
-        const all = []
-
-        for (let index = 0; index < jobs.length; index++) {
-			const job = jobs[index];
-
-			all.push(job.remove())
-		}
-
-        await Promise.all(all)
+        await clearAllJobs()
     })
 
     afterAll(async () => {
+        await clearAllJobs()
+
         await queue('default').close(30 * 1000)
 
         const connection = await Redis.connection('queue')
