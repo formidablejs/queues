@@ -49,6 +49,12 @@ export class QueueClear extends Command {
 	async clear(type: 'delayed' | 'waiting'): Promise<void> {
 		const worker = queue(this.option('queue', connection().queue))
 
+		if (!worker) {
+			this.message('error', `Queue "${this.option('queue', connection().queue)}" does not exist!`)
+
+			this.exit()
+		}
+
 		const jobs = await worker.getJobs(type, { start: 0 })
 
 		const all = []
