@@ -101,7 +101,7 @@ export class Queueable {
 
 		const defaultConnection = config('queue.default')
 
-		const connection =  config(`queue.connections.${defaultConnection}`)
+		const connection = config(`queue.connections.${defaultConnection}`)
 
 		return connection.driver ?? 'redis'
 	}
