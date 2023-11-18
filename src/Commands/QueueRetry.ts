@@ -5,6 +5,7 @@ import { Prop } from '@formidablejs/framework'
 import { Job } from 'bee-queue'
 import { Queueable } from '../Queueable'
 import { queue, registered } from '../Queue'
+import { connection } from '../Utils/connection'
 
 const settings = {
 	jobs: [],
@@ -30,7 +31,7 @@ export class QueueRetry extends Command {
 	 */
 	get props(): object {
 		return {
-			queue: Prop.string().multiple().default('default').description('The name of the queue to work'),
+			queue: Prop.string().multiple().default(connection().queue ?? 'default').description('The name of the queue to work'),
 		}
 	}
 

@@ -1,5 +1,9 @@
 import { createQueue } from './Queue'
+import { connection } from './Utils/connection'
+import { DuplicateQueueException } from './Errors/DuplicateQueueException'
 import { Generator } from './Commands/Generator'
+import { InvalidQueueConfigurationException } from './Errors/InvalidQueueConfigurationException'
+import { JobExecutionTimeoutException } from './Errors/JobExecutionTimeoutException'
 import { Queue } from './Queue'
 import { queue } from './Queue'
 import { Queueable } from './Queueable'
@@ -12,7 +16,11 @@ import { registered } from './Queue'
 
 export {
     createQueue,
+    connection,
+    DuplicateQueueException,
     Generator,
+    InvalidQueueConfigurationException,
+    JobExecutionTimeoutException,
     Queue,
     queue,
     Queueable,

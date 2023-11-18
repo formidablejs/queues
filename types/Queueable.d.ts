@@ -1,4 +1,6 @@
 import { Job } from 'bee-queue';
+import type { Connection } from './Common/Connection';
+
 export declare class Queueable {
     /**
      * Delay value.
@@ -37,6 +39,10 @@ export declare class Queueable {
      */
     private static _jobName(): string;
     /**
+     * Get queue connection.
+     */
+    private _connection(): Connection;
+    /**
      * Get queue name.
      */
     private static get queueName(): string;
@@ -68,4 +74,8 @@ export declare class Queueable {
      * Dispatch job.
      */
     dispatch<T = unknown>(...args: any[]): Promise<Job<any> | T>;
+}
+
+export {
+    Connection
 }

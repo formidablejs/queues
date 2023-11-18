@@ -1,6 +1,6 @@
 {
   "name": "@formidablejs/queues",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "main": "lib/index.js",
   "description": "Queue worker for the Formidable Framework",
   "author": "Donald Pakkies",
@@ -17,7 +17,7 @@
   ],
   "scripts": {
     "build": "babel src --out-dir lib --extensions \".ts\" --source-maps inline",
-    "test": "jest --detectOpenHandles --verbose",
+    "test": "jest --detectOpenHandles --no-cache --verbose",
     "prepare": "npm run build && npm run test"
   },
   "peerDependencies": {

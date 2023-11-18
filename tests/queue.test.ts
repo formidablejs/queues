@@ -18,4 +18,8 @@ describe('src/Queue', () => {
     it('should create a queue', async () => {
         expect(registered()).toContain('default')
     })
+
+    it('should not add sync connection to registered queues', async () => {
+        expect(registered()).not.toContain('sync')
+    })
 })

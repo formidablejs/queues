@@ -1,6 +1,6 @@
 // @ts-nocheck
 
-import { ConsoleKernel, Redis, ServiceResolver, slug } from '@formidablejs/framework'
+import { ConsoleKernel, Redis, ServiceResolver, env, slug } from '@formidablejs/framework'
 import { createQueue } from './Queue'
 import { Generator } from './Commands/Generator'
 import { QueueAbout } from './Commands/QueueAbout'
@@ -9,6 +9,8 @@ import { QueueRetry } from './Commands/QueueRetry'
 import { QueueWork } from './Commands/QueueWork'
 import { QueueClear } from './Commands/QueueClear'
 import { isEmpty } from '@formidablejs/framework/lib/Support/Helpers'
+import { InvalidQueueConfigurationException } from './Errors/InvalidQueueConfigurationException'
+import type { Connection } from '../types/Common/Connection'
 
 const redisConnections = { }
 
@@ -23,18 +25,18 @@ export class QueueServiceResolver extends ServiceResolver {
 		const queues = this.app.config.get('queue.connections', {})
 
 		Object.keys(queues).forEach((queue) => {
-			const config = queues[queue]
+			const config: Connection = queues[queue]
 
-			if (config.driver !== 'redis') {
+			if (config.driver !== 'redis' || env('QUEUE_REDIS', true) === false) {
 				return
 			}
 
 			if (config.driver == 'redis' && isEmpty(config.redis)) {
-				throw new Error(`Invalid redis connection for queue: ${queue}`)
+				throw new InvalidQueueConfigurationException(`Invalid redis connection for queue: ${queue}`)
 			}
 
 			if (!this.app.config.get(`database.redis.${config.redis}`, null)) {
-				throw new Error(`Invalid redis database: ${config.redis}`)
+				throw new InvalidQueueConfigurationException(`Invalid redis database: ${config.redis}`)
 			}
 
 			/** add redis instance for a new queue. */

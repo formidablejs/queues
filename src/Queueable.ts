@@ -5,6 +5,8 @@ import { delayAndRetry } from './Utils/Sync'
 import { config } from "@formidablejs/framework"
 import { queue } from "./Queue"
 import { Job } from 'bee-queue'
+import { connection } from './Utils/connection'
+import type { Connection } from '../types/Common/Connection'
 
 export class Queueable {
 	/**
@@ -53,6 +55,17 @@ export class Queueable {
 	}
 
 	/**
+	 * Get queue connection.
+	 */
+	private get _connection(): Connection {
+		if (!this.queue) {
+			return config(`queue.connections.${config('queue.default')}`)
+		}
+
+		return connection(this.queue)
+	}
+
+	/**
 	 * Get queue name.
 	 */
 	get queueName(): string {
@@ -71,6 +84,10 @@ export class Queueable {
 	 * Get queue driver.
 	 */
 	get queueDriver(): string {
+		if (this.queue && typeof this.queue === 'string') {
+			return this._connection.driver ?? 'redis'
+		}
+
 		const defaultConnection = config('queue.default')
 
 		const connection = config(`queue.connections.${defaultConnection}`)
@@ -82,6 +99,10 @@ export class Queueable {
 	 * Get queue timeout.
 	 */
 	get queueTimeout(): number {
+		if (this.queue && typeof this.queue === 'string') {
+			return this._connection.timeout ?? 3000
+		}
+
 		const defaultConnection = config('queue.default')
 
 		const connection = config(`queue.connections.${defaultConnection}`)
@@ -93,6 +114,10 @@ export class Queueable {
 	 * Get queue retries.
 	 */
 	get queueRetries(): number {
+		if (this.queue && typeof this.queue === 'string') {
+			return this._connection.retries ?? 0
+		}
+
 		const defaultConnection = config('queue.default')
 
 		const connection = config(`queue.connections.${defaultConnection}`)

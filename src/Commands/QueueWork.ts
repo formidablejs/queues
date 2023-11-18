@@ -4,6 +4,7 @@ import { Command } from '@formidablejs/framework'
 import { Prop } from '@formidablejs/framework'
 import { Queueable } from '../Queueable'
 import { queue, registered } from '../Queue'
+import { connection } from '../Utils/connection'
 
 const settings = {
 	jobs: [],
@@ -32,7 +33,7 @@ export class QueueWork extends Command {
 	 */
 	get props(): object {
 		return {
-			queue: Prop.string().multiple().default('default').description('The name of the queue to work'),
+			queue: Prop.string().multiple().default(connection().queue ?? 'default').description('The name of the queue to work'),
 			concurrency: Prop.number().default(1).description('The maximum number of simultaneously active jobs for this processor')
 		}
 	}
@@ -193,6 +194,12 @@ export class QueueWork extends Command {
 			this.message('info', `Stopping [${queueName}] queue`)
 
 			await worker.close(30 * 1000)
+
+			const pid = process.pid
+
+			if (pid) {
+				process.kill(pid, 'SIGTERM')
+			}
 		})
 	}
 }

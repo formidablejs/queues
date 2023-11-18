@@ -3,6 +3,7 @@
 import { Command } from '@formidablejs/framework'
 import { Prop } from '@formidablejs/framework'
 import { queue } from '../Queue'
+import { connection } from '../Utils/connection'
 
 export class QueueClear extends Command {
 	/**
@@ -24,7 +25,7 @@ export class QueueClear extends Command {
 	 */
 	get props(): object {
 		return {
-			queue: Prop.string().default('default').description('The name of the queue to work'),
+			queue: Prop.string().default(connection().queue ?? 'default').description('The name of the queue to work'),
 		}
 	}
 
@@ -46,7 +47,13 @@ export class QueueClear extends Command {
 	 * Clear jobs.
 	 */
 	async clear(type: 'delayed' | 'waiting'): Promise<void> {
-		const worker = queue(this.option('queue', 'default'))
+		const worker = queue(this.option('queue', connection().queue))
+
+		if (!worker) {
+			this.message('error', `Queue "${this.option('queue', connection().queue)}" does not exist!`)
+
+			this.exit()
+		}
 
 		const jobs = await worker.getJobs(type, { start: 0 })
 

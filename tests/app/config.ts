@@ -39,12 +39,17 @@ export class Config extends ConfigRepository {
                 }
             },
             queue: {
-                default: 'default',
+                default: 'redis',
                 connections: {
-                    default: {
+                    sync: {
+                        driver: 'sync',
+                        queue: 'sync'
+                    },
+
+                    redis: {
                         driver: 'redis',
                         queue: 'default',
-                        redis: 'queue',
+                        redis: env('REDIS_QUEUE', 'queue'),
                         timeout: 3000,
                         retries: 3
                     }
