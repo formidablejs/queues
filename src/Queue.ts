@@ -43,23 +43,23 @@ const registered = (): string[] => {
 
 class Queue {
 	/**
- 	* Add on ready event.
- 	*/
+ 	 * Add on ready event.
+ 	 */
 	static onReady(callback: CallableFunction): void {
 		QueueWork.onReady(callback)
 	}
 
 	/**
- 	* Add on error event.
- 	*/
+ 	 * Add on error event.
+ 	 */
 	static onError(callback: CallableFunction): void {
 		QueueWork.onError(callback)
 	}
 
 	/**
- 	* Add on log event.
- 	*/
-	 static onLog(callback: CallableFunction): void {
+ 	 * Add on log event.
+ 	 */
+	static onLog(callback: CallableFunction): void {
 		QueueWork.onLog(callback)
 	}
 }
