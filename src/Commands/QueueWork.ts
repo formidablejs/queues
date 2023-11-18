@@ -194,6 +194,12 @@ export class QueueWork extends Command {
 			this.message('info', `Stopping [${queueName}] queue`)
 
 			await worker.close(30 * 1000)
+
+			const pid = process.pid
+
+			if (pid) {
+				process.kill(pid, 'SIGTERM')
+			}
 		})
 	}
 }
