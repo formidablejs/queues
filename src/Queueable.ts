@@ -51,6 +51,10 @@ export class Queueable {
 	 * Get job name.
 	 */
 	static _jobName(): string {
+		if (this.jobName && typeof this.jobName === 'string') {
+			return this.jobName
+		}
+
 		return this.name
 	}
 
