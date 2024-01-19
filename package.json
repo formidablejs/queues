@@ -1,6 +1,6 @@
 {
   "name": "@formidablejs/queues",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "main": "lib/index.js",
   "description": "Queue worker for the Formidable Framework",
   "author": "Donald Pakkies",
