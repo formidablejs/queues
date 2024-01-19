@@ -23,10 +23,6 @@ export declare class Queueable {
      */
     get queue(): string;
     /**
-     * The name of the job.
-     */
-    get jobName(): string;
-    /**
      * The number of times the job should be retried.
      */
     get retries(): number;
@@ -41,7 +37,7 @@ export declare class Queueable {
     /**
      * Get job name.
      */
-    private static _jobName(): string;
+    static _jobName(): string;
     /**
      * Get queue connection.
      */
