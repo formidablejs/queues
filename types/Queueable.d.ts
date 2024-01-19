@@ -23,6 +23,10 @@ export declare class Queueable {
      */
     get queue(): string;
     /**
+     * The name of the job.
+     */
+    get jobName(): string;
+    /**
      * The number of times the job should be retried.
      */
     get retries(): number;
